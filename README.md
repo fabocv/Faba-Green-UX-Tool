@@ -3,7 +3,7 @@
 
 ## ¿Qué es Faba?
 
-Faba es un proyecto de benchmark de eficiencia front-end que permite comparar diferentes frameworks de desarrollo web bajo condiciones controladas y reproducibles.  Esta eficiencia computada tiene el propósito de dar un apoyo al staff de desarrollo y diseño, alineando dichos resultados  con prácticas de Green UX  y enfoques afines*. En este proyecto teórico-práctico, viviré la experiencia del desarrollo sostenible y demostrar qué tanto impacto benéfico genera al cliente usando varias herramientas y módulos para medir variables de usabilidad, de rendimiento y consumo de recursos.
+Faba es un proyecto de benchmark de eficiencia front-end que permite comparar diferentes frameworks de desarrollo web bajo condiciones controladas y reproducibles. Esta eficiencia tiene el propósito de dar apoyo al staff de desarrollo y diseño, alineando los resultados con prácticas de Green UX y enfoques afines*. Para esto, Faba cuantifica la eficiencia del framework y el esfuerzo de implementación de las soluciones sostenibles, analizando la dificultad según las mecánicas, librerías, líneas de código y estrategias usadas en cada uno de ellos. Finalmente, el proyecto demuestra el impacto benéfico para el cliente al medir variables de usabilidad, rendimiento y consumo subyacente de recursos
 
 ## Enfoque Green UX y corrientes afines aplicados al Frontend
 
@@ -127,17 +127,17 @@ Las publicaciones especializadas en diseño sostenible señalan que:
 * Reducir código innecesario y simplificar interfaces mejora tanto la experiencia de usuario como la eficiencia energética. 
 [(B12)](https://www.b12.io/glossary-of-web-design-terms/green-ux-sustainable-web-design)
 
-### 1) Cifras de impacto global de la tecnología digital
+#### 1) Cifras de impacto global de la tecnología digital
 
 Por ejemplo, estimaciones recientes indican que el uso de internet y servicios digitales representa una proporción notable de emisiones globales (cerca de 3–4% en informes de sostenibilidad digital). 
 [(wideagency.es)](https://www.wideagency.es/articles/la-alianza-entre-ux-y-ecologia-el-green-ux)
 
-### 2) Casos reales de optimización
+#### 2) Casos reales de optimización
 
 Hay casos de estudio reales que confirman que los principios del Green UX ofrecen ahorros ecológicos mesurables y mejoras para los usuarios, en especial para los dispositivos móviles [(eInfoChip)](https://www.einfochips.com/blog/design-for-sustainability-creating-a-greener-digital-world/). Green UX admite una amplia accesibilidad resultando sitios más livianos, inclusivos y esenciales para celulares de baja gama, antiguos o con baja cobertura.
 [(Sovereign Magazine)](https://www.sovereignmagazine.com/business/green-ux-design-sets-new-standard-for-sustainable-digital-practices)
 
-### 3) Herramientas de medición
+#### 3) Herramientas de medición
 Herramientas como Google Lighthouse, Website Carbon u otras especializadas permiten cuantificar mejoras en performance y, por ende, sostenibilidad de manera objetiva. Acá una lista enumerada por [marmelab (2022)](https://marmelab.com/blog/2022/04/05/greenframe-compare.html).
 
 * GreenIT Analysis
@@ -147,7 +147,7 @@ Herramientas como Google Lighthouse, Website Carbon u otras especializadas permi
 * Ecograder
 * PageSpeed Insight
 
-### 4) Relación con accesibilidad e inclusión
+#### 4) Relación con accesibilidad e inclusión
 Crear interfaces con Green UX es pensar en accesibilidad como consecuencia del cumplimiento de WCAG, implicando interfaces inclusivas y para gran espectro de público. [(Hapy Design)](https://hapy.design/journal/importance-of-sustainable-ux-ui-design)
 
 ---
@@ -361,9 +361,46 @@ Esto demuestra cómo la latencia y el ancho de banda penalizan la transferencia 
 
 ---
 
+## Cuantificando el Esfuerzo de Adopción
+
+Ahora que la justificación de rendimiento y accesibilidad es innegable, podemos centrarnos en el nuevo punto que agregaste: medir la **dificultad/esfuerzo de aplicación de Green UX** en cada framework (Líneas de Código, Percepción de Complejidad, etc.).
+
+Para hacer esta métrica objetiva, definiremos criterios para cuantificar el esfuerzo de implementar dos técnicas esenciales:
+
+1.  *Lazy loading inteligente de componentes y recursos.*
+2.  *Minimizar el peso del JS (Code Splitting/Tree Shaking).*
 
 
-# 8. Ejemplo de Reporte Comparativo
+## Criterios de cuantificación del Esfuerzo de Green UX sobre un framework
+
+### Métricas a considerar:
+
+|Métrica de Esfuerzo | Definición (Objetivo) |Escala de Puntuación o Criterios |
+| :------------ | :------- | :----------------- | 
+|1. Dependencias Externas | "Número de librerías o paquetes adicionales (no nativos del framework) requeridos para implementar la optimización (ej., Lazy Loading)." | "0: Funcionalidad nativa del framework (ej., Vue defineAsyncComponent). 1: Paquete oficial del ecosistema (ej., React Loadable). 2+: Paquete de terceros o plugin de build complejo." |
+| 2. Configuración de Build | "Esfuerzo requerido en el archivo de configuración (Vite, Angular CLI, etc.) para habilitar o refinar la optimización (ej., Code Splitting)." | "0: Automático (configuración por defecto del framework). 1: Agregar una línea de plugin o loader en el config base. 2+: Modificar archivos de configuración profundos (presets, targets o loaders)." | 
+| 3. Líneas de Código (LOC) de Implementación | Promedio de líneas de código extra necesarias en el componente para aplicar la técnica (excluyendo la lógica de negocio). | Baja (1-3 LOC): Sintaxis simple o una función envolvente. Media (4-8 LOC): HOC o hook que requiere lógica de fallback o loading. Alta (9+ LOC): Lógica manual o boilerplate significativo.|
+| 4. Grado de Modificación de Componente | Indica qué tan invasivo es el cambio de la técnica sobre el código existente del componente. | "Baja: Solo modifica la instrucción de import. Media: Requiere modificar la sintaxis template o JSX (ej., un <Suspense>). Alta: Requiere refactorizar la lógica del componente o lifecycle." |
+| 5. Soporte Nativo (Nivel de Abstracción) | "Indica si la técnica está completamente resuelta por la API del framework o si se basa en el bundler (Webpack, etc.) para funcionar." | Alto: Resuelta por API del framework (la abstracción maneja la complejidad). Medio: Requiere colaboración framework/bundler. Bajo: Depende casi enteramente de soluciones de build externas.| 
+
+## Aplicación a las Estrategias Green UX
+Con estos criterios, puedes medir la complejidad (¿Qué tan dificil es implementar?) de las siguientes estrategias clave de Green UX:
+
+### 1) Lazy Loading / Code Splitting:
+
+**Pregunta Clave**: ¿Qué tan difícil es dividir el bundle principal y cargar un componente de forma asíncrona (solo cuando se necesita o se muestra) en cada framework?
+
+### 2) Gestión de Imágenes Responsivas / Optimización de Assets:
+
+**Pregunta Clave**: ¿El framework o su toolchain (Vite, Angular CLI, etc.) ofrece soporte nativo para WebP/AVIF, o se necesita configurar loaders y plugins de terceros?
+
+### 3) Opt-out del Runtime (Svelte vs. otros):
+
+**Pregunta Clave**: En el caso de Vanilla JS y Svelte, ¿cuánto boilerplate o runtime de gestión de estado debes agregar manualmente para lograr la misma funcionalidad que en React o Vue?
+
+
+
+# Ejemplo de Reporte Comparativo 
 
 **Benchmark Front-End – Carga de 200 Usuarios – UI Pesada (Material UI)**
 Fecha: 2025-xx-xx
