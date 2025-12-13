@@ -301,6 +301,20 @@ Estas métricas se obtienen mediante:
 
 ---
 
+## Consideraciones técnicas
+Para efectos de buen benchmark de frameworks en el proyecto, se considera: 
+
+1) Un solo proveedor de hosting (no es carbón neutral)
+1) Una sola región
+1) Una sola CDN
+1) Dominios separados
+1) Frameworks distintos
+1) Mismo contenido funcional
+1) Mismas métricas
+1) Documentación explícita de las limitaciones
+
+---
+
 ## Resultados esperados
 
 Los resultados se presentan como reportes comparativos en Markdown, incluyendo:
@@ -317,6 +331,7 @@ Ejemplo de hallazgos esperables:
 - *¿**Qué tan difícil** es aplicar principios Green UX a cada framwork? - Linea de código, documentación, funciones, percepción de complejidad, configuraciones extra, librerías extra.
 
 ---
+
 
 ## Justificación técnica
 
