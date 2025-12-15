@@ -76,7 +76,7 @@ Cada aplicación:
 Un proceso posterior normaliza los datos y genera comparaciones claras.
 
 > Los detalles técnicos completos están documentados en  
-> [`methodology.md`](./methodology.md)
+> [`methodology.md`](docs/methodology.md)
 
 ---
 
@@ -125,7 +125,7 @@ Está diseñado para ser:
 
 ## Documentación adicional
 
-- 📄 Metodología completa: [`methodology.md`](./methodology.md)
+- 📄 Metodología completa: [`methodology.md`](docs/methodology.md)
 - 📊 Ejemplos de resultados: carpeta `/results`
 - 🧪 Apps evaluadas: carpeta `/apps`
 

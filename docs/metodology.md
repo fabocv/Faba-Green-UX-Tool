@@ -56,10 +56,10 @@ El controlador **no mide rendimiento** ni ejecuta lógica dentro del sistema baj
 ## 5. Ciclo de medición
 
 1. La app inicia la medición antes del render.
-2. Se ejecuta el render inicial y la carga de datos.
+2. Se ejecuta el render inicial y la carga estática de datos(fetch 1000 usuarios en json local).
 3. Se observan métricas mediante APIs nativas.
 4. La medición finaliza cuando:
-   > *El render inicial se completa y no se detectan Long Tasks durante 200 ms consecutivos.*
+   > *El render inicial se completa y no se detectan Long Tasks durante 300 ms consecutivos.*
 5. El proceso se repite **M veces**.
 6. Se calculan estadísticas agregadas.
 7. Se exponen los resultados al controlador.
@@ -360,7 +360,7 @@ El script de normalización **no**:
     "dataSource": "randomuser.me",
     "recordsRendered": 100,
     "layout": "grid-4-columns",
-    "measurementEndCondition": "initial-render-complete-and-no-long-tasks-for-200ms"
+    "measurementEndCondition": "initial-render-complete-and-no-long-tasks-for-300ms"
   },
 
   "network": {
