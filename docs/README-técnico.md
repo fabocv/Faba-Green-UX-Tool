@@ -58,6 +58,8 @@ Cada aplicación:
 
 No se utilizan microfrontends para evitar contaminación de métricas por recursos compartidos.
 
+> Para más detalles de la metodología y sus scripts de cálculo [revisar acá](docs/metodologia.md)
+
 ---
 
 ## Metodología de medición
