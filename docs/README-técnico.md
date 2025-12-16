@@ -1,18 +1,7 @@
-# Faba-Green-UX-Tool
+# Faba - A headless frontend cold-start benchmark
 > ### Autor: Fabián Catalán | Diciembre 2025
 
 > Estado: En desarrollo (Q1 2026)
-
-## ¿Qué es Faba?
-
-Faba es un proyecto de benchmark de eficiencia front-end basado en principios de  [Green UX](docs/green-ux.md) que permite comparar diferentes frameworks de desarrollo web bajo condiciones controladas y reproducibles. Los resultados están orientados a equipos de desarrollo y diseño UI/UX, y buscan cuantificar tanto la eficiencia de cada framework como el esfuerzo requerido para implementar soluciones sostenibles. Esta información se utiliza como apoyo en decisiones de arquitectura y diseño frontend, así como para generar consciencia sobre el impacto ambiental del software.
-
----
-
-## Público objetivo
-
-Desarrolladores frontend, equipos UX/UI y perfiles técnicos interesados en performance, sostenibilidad digital y Green UX basado en métricas.
-
 
 # Descripción general del proyecto 
 

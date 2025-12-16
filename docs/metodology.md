@@ -3,10 +3,12 @@
 ## 1. Estrategia general
 
 Faba utiliza una estrategia de **benchmark técnico comparativo**, basada en medición **in-process**, ejecuciones repetidas y agregación estadística.  
-Cada aplicación bajo prueba (framework + variante UI) es responsable de medir su propio rendimiento utilizando exclusivamente **APIs nativas del navegador**, evitando dependencias externas que puedan interferir con los resultados.
+Cada aplicación bajo prueba (framework en ambiente **headless** + variante UI) es responsable de medir su propio rendimiento utilizando exclusivamente **APIs nativas del navegador**, evitando dependencias externas que puedan interferir con los resultados. 
 
 El objetivo no es certificar consumo energético absoluto, sino **comparar costos técnicos relativos** asociados a decisiones de framework y arquitectura frontend, bajo condiciones controladas y reproducibles.
 
+ El objetivo acotado de este benchmark es medir el costo real de entrar por primera vez a una aplicación (cold start), aislando el costo inicial del framework y su ecosistema base *(Ver punto 5. Ciclo de Medición.)*  
+ 
 ---
 
 ## 2. Tipo de testeo
@@ -14,9 +16,9 @@ El objetivo no es certificar consumo energético absoluto, sino **comparar costo
 - **Tipo**: Benchmark comparativo de rendimiento frontend.
 - **Nivel**: Aplicación completa (no micro-benchmark).
 - **Contexto**: Render inicial y estabilización del hilo principal.
-- **Enfoque**: Consumo de recursos digitales (red, CPU, JS, memoria).
+- **Enfoque**: Las métricas de red corresponden exclusivamente a la descarga inicial de recursos estáticos (JS, CSS, fuentes), no a tráfico dinámico de APIs.
 
-No se trata de pruebas sintéticas aisladas, sino de **escenarios funcionales equivalentes** ejecutados en condiciones homogéneas.
+
 
 ---
 
@@ -55,22 +57,38 @@ El controlador **no mide rendimiento** ni ejecuta lógica dentro del sistema baj
 
 ## 5. Ciclo de medición
 
-1. La app inicia la medición antes del render.
-2. Se ejecuta el render inicial y la carga estática de datos(fetch 1000 usuarios en json local).
-3. Se observan métricas mediante APIs nativas.
-4. La medición finaliza cuando:
-   > *El render inicial se completa y no se detectan Long Tasks durante 300 ms consecutivos.*
-5. El proceso se repite **M veces**.
-6. Se calculan estadísticas agregadas.
-7. Se exponen los resultados al controlador.
+1. La aplicación inicia la medición inmediatamente antes del render inicial.
+2. Se ejecuta el render inicial utilizando un dataset JSON local y determinista de 1000 registros, previamente disponible en la aplicación.
+3. Durante el proceso se observan métricas mediante APIs nativas del navegador.
+4. Se espera a que el navegador procese al menos un frame posterior al render inicial, detectado mediante requestAnimationFrame (rAF).
+   > Esto evita cerrar la medición antes de que ocurra un paint efectivo o mientras aún exista trabajo de reconciliación pendiente.
+5. La medición finaliza cuando no se detectan Long Tasks en el hilo principal durante una ventana continua de 300 ms (idleWindowMs).
+6. El proceso se repite **M veces** bajo las mismas condiciones.
+   > El número de iteraciones (M) es un parámetro definido por la aplicación controladora.
+Cada aplicación evaluada ejecuta una única medición por invocación y no recibe información sobre el número total de iteraciones.
+
+   >Para los resultados oficiales de Faba, se utiliza un valor fijo de M = 20, garantizando comparabilidad y estabilidad estadística.
+
+7. Se calculan estadísticas agregadas a partir de las ejecuciones.
+8. Los resultados finales se exponen a la aplicación controladora.
+
+> Nota: requestAnimationFrame no se utiliza como métrica temporal en este proyecto, sino como una señal de sincronización con el pipeline de render del navegador.
+---
+
+### Aislamiento de iteraciones y caché
+
+Cada iteración de medición se ejecuta en un entorno completamente limpio, sin reutilización de caché ni estado previo.
+
+Esto incluye la eliminación de caché HTTP, almacenamiento local, service workers y cualquier estado persistente del navegador.  
+El objetivo es medir la experiencia de un usuario que accede a la aplicación por primera vez (cold start), aislando el costo inicial del framework y su ecosistema base.
 
 ---
 
 ## 6. Iteraciones (M)
 
 - Cada aplicación ejecuta **M iteraciones completas** del escenario definido.
-- Valor por defecto recomendado: **M = 20**.
-- `M` es un **parámetro configurable**, definido por la aplicación controladora y transmitido a cada app evaluada.
+- Valor por defecto: **M = 20**.
+- `M` es un parámetro definido y manejado por la aplicación controladora.
 - Los resultados reportados corresponden a valores **promediados**, con posibilidad de incluir desviación estándar.
 
 Esto permite reducir variabilidad y capturar comportamientos consistentes.
@@ -128,7 +146,7 @@ Todas las métricas se obtienen mediante **APIs nativas del navegador**, sin dep
 | Heap Used | Memoria JS utilizada post-render | MB | `performance.memory.usedJSHeapSize` (Chrome) |
 
 
-TTI* se calcula de forma operativa, considerando ausencia de Long Tasks y disponibilidad de interacción básica, no como definición estricta de Lighthouse.
+TTI* es una métrica operativa propia de Faba, inspirada en el concepto de Time To Interactive, pero no equivalente a la definición de Lighthouse.
 ---
 
 ## 10. Métricas derivadas
@@ -160,6 +178,12 @@ El índice es **relativo al conjunto comparado** y se utiliza exclusivamente par
 - Impacto del backend o infraestructura.
 - Experiencia de usuario subjetiva.
 - Comportamiento en escenarios complejos de estado global o autenticación.
+
+No se trata de pruebas sintéticas aisladas, sino de **escenarios funcionales equivalentes** ejecutados en condiciones homogéneas.
+
+ > Los resultados de Faba representan el rendimiento del frontend en un entorno controlado (headless) y no pretenden replicar todas las variaciones del render visual en dispositivos reales.
+ 
+ > Este enfoque aislado no pretende representar escenarios de uso recurrente ni sesiones prolongadas.
 
 El foco es **frontend, técnico, comparativo y reproducible**.
 
@@ -357,7 +381,8 @@ El script de normalización **no**:
   },
 
   "scenario": {
-    "dataSource": "randomuser.me",
+    "dataSource": "local-static-json",
+    "description": "dataset JSON local, estático y determinista, empaquetado con la aplicación",
     "recordsRendered": 100,
     "layout": "grid-4-columns",
     "measurementEndCondition": "initial-render-complete-and-no-long-tasks-for-300ms"

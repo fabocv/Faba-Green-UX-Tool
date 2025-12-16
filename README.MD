@@ -1,8 +1,12 @@
-# Faba — Benchmark de Eficiencia Front-End y Green UX
 
-Faba es un proyecto de **benchmark comparativo** que evalúa la eficiencia técnica de aplicaciones web desarrolladas con distintos frameworks frontend, bajo principios de **Green UX**.
+# Faba — Benchmark headless de eficiencia front-end
 
-Su objetivo es ayudar a diseñadores UI/UX y equipos de desarrollo a **comparar decisiones tecnológicas** desde una perspectiva de costo digital: uso de red, procesamiento, ejecución de JavaScript y estabilidad del hilo principal.
+Faba es un proyecto de **benchmark comparativo** que evalúa la eficiencia técnica de aplicaciones web desarrolladas con distintos frameworks frontend modernos en su primera carga.
+
+Su objetivo es ayudar a diseñadores UI/UX y equipos de desarrollo a evaluar decisiones tecnológicas desde una perspectiva de costo digital —transferencia inicial de recursos, ejecución de JavaScript, carga de procesamiento y estabilidad del hilo principal— midiendo el costo real de acceder por primera vez a una aplicación web.
+
+Faba no busca determinar un framework “ganador”, sino ofrecer una base técnica objetiva para tomar mejores decisiones de arquitectura y diseño.
+
 
 ---
 
@@ -64,6 +68,18 @@ Los resultados son **comparativos y contextuales**, no absolutos.
 
 ---
 
+## ¿Por qué eficiencia front-end?
+
+La eficiencia front-end no se limita a rendimiento percibido o estética visual.
+Cada decisión técnica —framework, librerías, arquitectura de render— tiene un costo computacional y energético real, especialmente durante el primer acceso de una aplicación web.
+
+Reducir transferencia innecesaria de recursos, minimizar trabajo del navegador y evitar bloqueos del hilo principal no solo mejora la experiencia inicial, sino que también disminuye el consumo de recursos en contextos reales de uso.
+
+En este sentido, Faba aborda la sostenibilidad desde la eficiencia técnica.
+Los principios de Green UX emergen como consecuencia de decisiones de diseño y arquitectura más conscientes, no como un objetivo estético aislado.
+
+---
+
 ## ¿Cómo se miden los resultados? (visión general)
 
 Cada aplicación:
@@ -95,20 +111,6 @@ Esto permite responder preguntas como:
 - ¿Cuál bloquea menos el navegador?
 - ¿Cuál escala mejor al aumentar datos?
 - ¿Qué decisiones técnicas tienen menor costo digital?
-
----
-
-## ¿Por qué Green UX?
-
-Green UX no se trata solo de diseño visual minimalista.  
-También implica:
-
-- menos datos transferidos,
-- menos trabajo innecesario del navegador,
-- interfaces que respetan contextos reales de uso,
-- decisiones técnicas conscientes de su impacto.
-
-Faba conecta **diseño, tecnología y sostenibilidad** en un mismo análisis.
 
 ---
 
