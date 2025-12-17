@@ -185,7 +185,7 @@ Todas las métricas se obtienen mediante **APIs nativas del navegador**, sin dep
 
 FTTS (Faba Time To Stability) Tiempo transcurrido desde el inicio de la aplicación hasta que el render inicial se completa y el hilo principal permanece libre de Long Tasks durante un umbral continuo de 300 ms.
 
-> Nota: TTS es una métrica propia de Faba y no es equivalente al TTI definido por Lighthouse.
+> Nota: FTTS es una métrica propia de Faba y no es equivalente al TTI definido por Lighthouse.
 ---
 
 ## 10. Métricas derivadas
