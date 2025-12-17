@@ -1,10 +1,23 @@
 
-# Faba — Benchmark headless de eficiencia front-end
+# Faba — Benchmark de Eficiencia Web
 
 ## Autor
 - Autor: Fabián Catalán
 - Github: https://github.com/fabocv
-- LinkedIn: https://www.linkedin.com/in/fkatv
+- LinkedIn: 
+
+
+
+**¿Qué tan pesada es tu aplicación para el planeta y para el usuario?** Faba mide el costo técnico y digital de los frameworks modernos en su primera carga.
+
+## **📖 Elige tu camino de lectura:**
+- **¿Eres Diseñador, PM o curioso por la Sostenibilidad?** 👉 Lee nuestra [Guía Esencial (Sin tecnicismos)](docs/esencial.md)
+
+  Aprende sobre el impacto ambiental de la web y por qué la eficiencia es el nuevo estándar del diseño.
+
+- **¿Eres Desarrollador, Arquitecto o Auditor Técnico?** 👉 Explora la [Metodología Detallada](docs/methodology.md)
+  
+  Revisa nuestro rigor estadístico ($M=20$), el uso de APIs nativas y nuestra métrica de estabilidad FTTS.
 
 ## Estado:
 En construcción del benchmark práctico (apps web) bajo la metodología Faba v1.1
@@ -32,6 +45,12 @@ En el desarrollo frontend moderno:
   - huella digital,
   - accesibilidad en contextos de baja conectividad.
 
+Imaginemos que cada aplicación web tiene un "peso" invisible. Faba mide ese peso analizando:
+
+- **Descarga**: Cuántos datos necesita bajar tu dispositivo para mostrar la página.
+- **Esfuerzo**: Qué tanto trabajo le da al procesador de tu dispositivo.
+- **Pausa**: Cuánto tiempo se queda "congelada" la pantalla antes de que puedas interactuar. Luego, compara estos datos para mostrar qué tecnologías son más ligeras y respetuosas con el usuario y el medio ambiente.
+
 Faba busca **hacer visibles esas diferencias** de forma medible y comparable.
 
 ---
@@ -44,9 +63,11 @@ Faba ejecuta **aplicaciones equivalentes**, construidas con distintos frameworks
 - cuánto tiempo ejecutan código,
 - cuánto bloquean el hilo principal durante la carga inicial
 - cuántas solicitudes de red realizan,
-- cuán estables son durante el render inicial.
+- cuánto tiempo tarda la interfaz en estar lista para ser usada sin interrupciones o bloqueos
 
 Luego, compara esos resultados de manera **relativa y transparente**.
+
+> **Imagina esto:** Si entrar a una web fuera un viaje, Faba mide cuánta gasolina gasta el vehículo, cuántas maletas carga y qué tan pesada es la ruta antes de llegar al destino"
 
 ---
 
@@ -80,6 +101,12 @@ Los resultados son **comparativos y contextuales**, no absolutos.
 
 ## ¿Por qué eficiencia front-end?
 
+### Resumido:
+
+- ⚡️ Velocidad: Menos tiempo de espera para el usuario.
+- 🔋 Batería: Menos esfuerzo del procesador del teléfono.
+- 🌍 Planeta: Menor huella de carbono digital por cada visita.
+
 La eficiencia front-end no se limita a rendimiento percibido o estética visual.
 Cada decisión técnica —framework, librerías, arquitectura de render— tiene un costo computacional y energético real, especialmente durante el primer acceso de una aplicación web.
 
@@ -92,12 +119,7 @@ Los principios de Green UX emergen como consecuencia de decisiones de diseño y 
 
 ## ¿Cómo se miden los resultados? (visión general)
 
-Cada aplicación:
-
-- se mide a sí misma usando APIs nativas del navegador,
-- ejecuta el mismo escenario varias veces,
-- promedia sus resultados,
-- y entrega métricas agregadas.
+Cada aplicación se mide a sí misma, ejecuta el mismo escenario 20 veces para eliminar variaciones aleatorias
 
 Un proceso posterior normaliza los datos y genera comparaciones claras.
 
