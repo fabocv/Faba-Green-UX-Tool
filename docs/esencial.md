@@ -49,7 +49,7 @@ La eficiencia digital no se trata solo de ahorrar batería. Es reducir la cantid
 --- 
 
 ### 6. ¿Cómo leer los resultados de Faba?
-Cuando veas nuestras tablas, fíjate en el Índice de Eficiencia:
+Cuando veas nuestras tablas, fíjate en el Índice de Eficiencia, siempre en comparacipon con otras tecnologías medidas bajo este experimento:
 
 - **Cercano a 0**: La tecnología es una "pluma". Es ideal para proyectos que buscan máxima inclusión y bajo impacto ambiental.
 
