@@ -28,11 +28,11 @@ La mayoría de las aplicaciones modernas se diseñan en condiciones perfectas: c
 
 Cada herramienta que añadimos al desarrollo tiene un costo que el usuario paga con su tiempo y su batería antes de poder usar la app. **Faba** hace visible este costo invisible mediante tres pilares:
 
-1. La Espera (Carga): Lo que tarda en bajar la app a tu dispositivo.
+1. **La Espera (Carga)**: Lo que tarda en bajar la app a tu dispositivo.
 
-2. El Esfuerzo (Procesamiento): Qué tanto tiene que trabajar tu dispositivo para entender el código.
+2. **El Esfuerzo (Procesamiento)**: Qué tanto tiene que trabajar tu dispositivo para entender el código.
 
-3. La Frustración (Bloqueo): Esos segundos donde la pantalla se ve bien, pero no responde a tus clics.
+3. **La Frustración (Bloqueo)**: Esos segundos donde la pantalla se ve bien, pero no responde a tus clics.
 
 ---
 
@@ -41,7 +41,7 @@ El rendimiento siempre ha importado, pero hoy el escenario ha cambiado:
 
 1) **Responsabilidad Ambiental**: La eficiencia digital es ahora un pilar de la sostenibilidad corporativa (Green UX). Un código optimizado reduce el consumo energético de los centros de datos y dispositivos móviles.
 
-2) **Inclusión Digital**: El hardware de gama media/baja ya no puede seguir el ritmo del crecimiento exponencial del JavaScript, así lo señala Según Alex Rusell en [*The State of the Web*](https://infrequently.org/2021/03/the-performance-inequality-gap/). Por otro lado, la reducción en milisegundos del renderizado aumenta las tasas de conversión en países en desarrollo, según [*WPO Stats*](https://wpostats.com/), un ejemplo de lo anterior es Pinterest, que redujo el tiempo de espera en un 40% y aumentó sus ingresos publicitarios en un 44%. Esto prueba que el hardware lento "expulsa" a los usuarios de la economía digital si la web es pesada. El rendimiento no es un lujo, es una condición necesaria para la inclusión digital en un mercado global diverso
+2) **Inclusión Digital**: El hardware de gama media/baja ya no puede seguir el ritmo del crecimiento exponencial del JavaScript, así lo señala Según Alex Rusell en [*The State of the Web*](https://infrequently.org/2021/03/the-performance-inequality-gap/). Por otro lado, la reducción en milisegundos del renderizado aumenta las tasas de conversión en países en desarrollo, según [*WPO Stats*](https://wpostats.com/), un ejemplo de lo anterior es Pinterest, que redujo el tiempo de espera en un 40% y aumentó sus ingresos publicitarios en un 44%. Esto prueba que el hardware lento "expulsa" a los usuarios de la economía digital si la web es pesada. El rendimiento no es un lujo, es una condición necesaria para la inclusión digital en un mercado global diverso.
 
 3) **Impuesto del tiempo de ejecución** El tamaño del bundle (js comprimido) es engañoso, pues la experiencia de usuario (la espera) es el parseo y la compilación del mismo. EN hardware de gama media-baja es linealmente más lento, creando barreras de acceso ([The Cost of JavaScript - V8 Blog / Andy Osmani](https://v8.dev/blog/cost-of-javascript-2019)).
 
@@ -51,7 +51,7 @@ El rendimiento siempre ha importado, pero hoy el escenario ha cambiado:
 
 ## ¿Qué hace Faba exactamente? 
 
-Faba se especializa en el Cold Start (Carga en frío). No medimos navegación de larga duración, sino el Costo de Entrada.
+Faba se especializa en el Cold start (Carga en frío). No medimos navegación de larga duración, sino el *costo de entrada*.
 
 Bajo un entorno **Headless controlado**, ejecutamos aplicaciones funcionalmente idénticas (1000 registros de datos estáticos) para auditar:
 
@@ -71,16 +71,16 @@ Para garantizar que los resultados sean indiscutibles, aplicamos:
 - **Estabilidad Estadística**: Cada escenario se repite 20 veces ($M=20$) con limpieza total de caché entre turnos para eliminar el ruido.
 - **Línea Base Vanilla**: Comparamos todo contra una versión en Vanilla JS para conocer el costo mínimo inevitable del navegador.
 
-| Framework	|baseline-light	| design-system-heavy |
-|-----------|---------------|---------------------|
-| VanillaJS | CSS plano / utilitario | Material Web Components|
-| React |	CSS plano / utilitario	 | Material UI (MUI) |
-| Angular |	CSS plano / utilitario | 	Angular Material |
-| Vue 3* |	CSS plano / utilitario	 | Vuetify |
-| Svelte |	CSS plano / utilitario | 	Svelte Material UI |
-| SolidJS* |	CSS plano / utilitario | 	Material Web Components |
+| Framework	| version | baseline-light	| design-system-heavy |
+|-----------|---------|-----------------|---------------------|
+| Angular | Faba v1.1	|CSS plano / utilitario | 	Angular Material |
+| React | Faba v1.1	|CSS plano / utilitario	 | Material UI (MUI) |
+| VanillaJS | Faba v1.1 | CSS plano / utilitario | Material Web Components|
+| Svelte | Faba v1.1 |CSS plano / utilitario | 	Svelte Material UI |
+| Vue 3* |Faba v1.2 |CSS plano / utilitario	 | Vuetify |
+| SolidJS* | Faba v1.2	|CSS plano / utilitario | 	Material Web Components |
 
-> (*) Disponibles para la Versión 1.2
+> (*) Disponibles para la Versión 1.2+
 
 ## Medimos la primera impresión de los frameworks
 
@@ -184,7 +184,7 @@ npm run clean
 ## Pantallas v1.1
 
 ![Benchmark](./docs/img/main1.1.png)
-Primer prototipo funcional de Faba - Angular test
+Primer prototipo funcional de Faba v1.1 - Angular tests
 
 ![Resultado Benchmark](./docs/img/tabla-angular1.1.png)
-Resultados comparativos de Angular sin design system (light) y con MUI (heavy)
+Resultados comparativos de Angular sin design system (light) y con MUI (heavy) bajo headless controlado y con $M=20$
