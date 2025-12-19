@@ -1,9 +1,65 @@
 const socket = io();
 
+const tests = {
+    'angular-light': {
+        port: 4201,
+        btn: document.getElementById('btn-angular-bsl-light'),
+        progressP: document.querySelector('#progreso-test p'),
+        progressB: document.querySelector('#progreso-test progress'),
+        results: document.getElementById('angular-light-results'),
+        interBox: document.getElementById('interpretation-box'),
+        interText: document.getElementById('interpretation-text')
+    },
+    'angular-heavy': {
+        port: 4202,
+        btn: document.getElementById('btn-angular-bsl-heavy'),
+        progressP: document.querySelector('#progreso-test-ang-heavy p'),
+        progressB: document.querySelector('#progreso-test-ang-heavy progress'),
+        results: document.getElementById('angular-heavy-results'),
+        interBox: document.getElementById('interpretation-box-angular-mui'),
+        interText: document.getElementById('interpretation-text-angular-mui')
+    }
+};
+
+// Asignar eventos a ambos botones
+Object.keys(tests).forEach(key => {
+    const config = tests[key];
+    if (config.btn) {
+        config.btn.addEventListener('click', () => {
+            config.btn.disabled = true;
+            if (config.progressB) config.progressB.value = 0;
+            if (config.progressP) config.progressP.innerText = "0 / 20";
+            
+            socket.emit('start-test', { 
+                url: `http://localhost:${config.port}`,
+                type: key 
+            });
+        });
+    }
+});
+
 const btnLight = document.getElementById('btn-angular-bsl-light');
 const progressText = document.querySelector('#progreso-test p');
 const progressBar = document.querySelector('#progreso-test progress');
 const resultsDiv = document.getElementById('angular-light-results');
+
+let isRunning = false;
+
+function toggleAllButtons(disabled) {
+    const buttons = document.querySelectorAll('.btn-testing button');
+    buttons.forEach(btn => btn.disabled = disabled);
+    isRunning = disabled;
+}
+
+Object.keys(tests).forEach(key => {
+    const config = tests[key];
+    config.btn.addEventListener('click', () => {
+        if (isRunning) return;
+        
+        toggleAllButtons(true); // Bloqueamos todo al empezar
+        socket.emit('start-test', { url: `http://localhost:${config.port}`, type: key });
+    });
+});
 
 if (btnLight) {
     btnLight.addEventListener('click', () => {
@@ -13,7 +69,7 @@ if (btnLight) {
         if (progressText) progressText.innerText = "0 / 20";
         
         socket.emit('start-test', { 
-            url: 'http://localhost:4200', 
+            url: `http://localhost:${test['angular-light'].port}`,
             type: 'angular-light' 
         });
     });
@@ -21,21 +77,19 @@ if (btnLight) {
 
 // Escuchar progreso y mover la barra
 socket.on('test-progress', (data) => {
-    if (data.type === 'angular-light') {
+    const config = tests[data.type];
+    if (config) {
         const porcentaje = (data.current / data.total) * 100;
-        
-        if (progressText) {
-            progressText.innerText = `${data.current} / ${data.total}`;
-        }
-        if (progressBar) {
-            progressBar.value = porcentaje;
-        }
+        if (config.progressP) config.progressP.innerText = `${data.current} / ${data.total}`;
+        if (config.progressB) config.progressB.value = porcentaje;
     }
 });
 
+
 socket.on('test-complete', (data) => {
-    if (data.type === 'angular-light') {
-        const threshold = 150; // Tu umbral de estabilidad
+    const config = tests[data.type];
+    if (config) {
+        const threshold = 150; // Umbral de estabilidad
         const sigma = data.metrics.performance.stdDev;
 
         if (sigma > threshold) {
@@ -46,40 +100,66 @@ socket.on('test-complete', (data) => {
             resultsDiv.style.border = "none";
         }
 
-        btnLight.disabled = false;
-        renderResults(data.metrics);
+        config.btn.disabled = false;
+        console.log(data.metrics);
+        toggleAllButtons(false); // Liberamos al finalizar
+        renderResults(data.type, data.metrics);
     }
 });
-function renderResults(m) {
+
+// Escuchar errores críticos del servidor
+socket.on('test-error', (data) => {
+    toggleAllButtons(false); // Liberamos botones
+    // 1. Resetear barra de progreso si es necesario
+    if (progressText) progressText.innerText = "Error";
+    if (progressBar) progressBar.value = 0;
+
+    if (data.detectedType && tests[data.detectedType]) {
+        alert(`⚠️ ¡Error de selección! Presionaste el botón de '${data.requestedType}', pero detectamos '${data.detectedType}'. Iniciando test en la card correcta...`);
+        
+        // Redirigimos el comando al tipo correcto automáticamente
+        socket.emit('start-test', { url: `http://localhost:${data.port}`, type: data.detectedType });
+        toggleAllButtons(true);
+        return;
+    }
+    // 2. Mostrar alerta visual (puedes usar un modal o un simple alert)
+    alert(`🚨 Error en el Benchmark: ${data.message}`);
+    return;
+});
+
+// Manejar desconexión total del servidor Node
+socket.on('disconnect', () => {
+    console.error("Se perdió la conexión con el servidor de control.");
+    alert("Servidor de control desconectado. Reinicia 'node server.js'.");
+});
+
+function renderResults(type, m) {
     if (!resultsDiv) return;
+
+    const config = tests[type];
+    if (!config.results) return;
     
-    resultsDiv.classList.remove('hidden');
-    resultsDiv.innerHTML = `
+    config.results.innerHTML = `
         <div class="accordion">
-            <details open>
-                <summary>📦 Red</summary>
+            <details open><summary>📦 Red</summary>
                 <p>JS Bundle: ${m.network.jsBundleKB.toFixed(2)} KB</p>
                 <p>Total Transferred: ${m.network.totalTransferredKB.toFixed(2)} KB</p>
             </details>
-            <details open>
-                <summary>⚡ Rendimiento</summary>
-                <p>FCP (Pintado): ${m.performance.FCPms.toFixed(2)} ms</p>
-                <p>FTTS (Estable): ${m.performance.FTTSms.toFixed(2)} ms</p>
+            <details open><summary>⚡ Rendimiento</summary>
+                <p>FCP: ${m.performance.FCPms.toFixed(2)} ms</p>
+                <p>FTTS: ${m.performance.FTTSms.toFixed(2)} ms</p>
                 <p>Estabilidad (σ): ±${m.performance.stdDev.toFixed(2)} ms</p>
             </details>
-            <details open>
-                <summary>💾 Memoria</summary>
+            <details open><summary>💾 Memoria</summary>
                 <p>Heap Used: ${m.memory.jsHeapUsedMB.toFixed(2)} MB</p>
             </details>
         </div>
     `;
 
-    // Mostrar interpretación humana
-    const infoBox = document.getElementById('interpretation-box');
-    const infoText = document.getElementById('interpretation-text');
-    if (infoBox && infoText) {
-        infoBox.classList.remove('hidden');
-        infoText.innerHTML = getHumanInterpretation(m);
+    // Inyectar interpretación humana
+    if (config.interBox && config.interText) {
+        config.interBox.classList.remove('hidden');
+        config.interText.innerHTML = getHumanInterpretation(m);
     }
 }
 

@@ -15,21 +15,54 @@ io.on('connection', (socket) => {
         const { url, type } = data;
         const iterations = 20;
         let results = [];
+        let browser;
 
-        // 1. Lanzamos el navegador una sola vez para la sesión de pruebas
-        const browser = await puppeteer.launch({ headless: "new" });
+        // Solo permitir localhost o 127.0.0.1
+        if (!url.startsWith('http://localhost') && !url.startsWith('http://127.0.0.1')) {
+            return socket.emit('test-error', { 
+                message: "Seguridad: Solo se permiten pruebas en entornos locales (localhost)." 
+            });
+        }
 
         try {
+            // 1. Lanzamos el navegador una sola vez para la sesión de pruebas
+            browser = await puppeteer.launch({ headless: "new" });
+
             for (let i = 0; i < iterations; i++) {
                 // 2. CREAMOS LA PÁGINA (Aquí estaba el error anterior)
                 const context = await browser.createBrowserContext();
                 const page = await context.newPage();
 
-                // 3. Navegamos a la URL de Angular (puerto 4200)
-                await page.goto(url, { waitUntil: 'networkidle0' });
+                // Seguridad: Solo localhost
+                if (!url.startsWith('http://localhost') && !url.startsWith('http://127.0.0.1')) {
+                    throw new Error("Seguridad: Solo se permiten pruebas en entornos locales.");
+                }
 
-                // 4. Esperamos a que el Harness de Angular termine
-                await page.waitForFunction(() => window.fabaRawMetrics !== undefined, { timeout: 30000 });
+                // 3. Navegamos a la URL de Angular (puerto 4200)
+                try {
+                    await page.goto(url, { waitUntil: 'networkidle0', timeout: 20000 });
+                } catch (e) {
+                    throw new Error(`No se pudo acceder a ${url}. ¿Está Angular corriendo?`);
+                }
+
+                // 4. VALIDACIÓN DE HANDSHAKE ---
+                // Validar el tipo de App mediante Handshake
+                const detectedType = await page.evaluate(() => window.fabaAppType);
+
+                // Si no hay variable, o es diferente a la solicitada
+                if (!detectedType || detectedType !== type) {
+                    const errorMsg = detectedType 
+                        ? `MISMATCH:${detectedType}` 
+                        : "ERROR: No se detectó variable fabaAppType en la App";
+                    throw new Error(errorMsg);
+                }
+                // 5. Esperamos a que el Harness de Angular termine
+                // Error común: El Harness no carga o tarda demasiado
+                try {
+                    await page.waitForFunction(() => window.fabaRawMetrics !== undefined, { timeout: 15000 });
+                } catch (e) {
+                    throw new Error("El Harness de auditoría no respondió. Revisa la consola de Angular.");
+                }
                 
                 const metrics = await page.evaluate(() => window.fabaRawMetrics);
                 results.push(metrics);
@@ -49,8 +82,12 @@ io.on('connection', (socket) => {
             socket.emit('test-complete', { type, metrics: finalMetrics });
 
         } catch (error) {
-            console.error("Error durante el test:", error);
-            socket.emit('test-error', { message: error.message });
+            console.error("❌ Error en el test:", error.message);
+            socket.emit('test-error', { 
+                requestedType: type, 
+                detectedType: error.message.includes('MISMATCH:') ? error.message.split(':')[1] : null,
+                message: error.message 
+            });
         } finally {
             await browser.close();
         }
