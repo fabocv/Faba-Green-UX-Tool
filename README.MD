@@ -76,11 +76,13 @@ Para garantizar que los resultados sean indiscutibles, aplicamos:
 | Angular | Faba v1.1	|CSS plano / utilitario | 	Angular Material |
 | React | Faba v1.1	|CSS plano / utilitario	 | Material UI (MUI) |
 | VanillaJS | Faba v1.1 | CSS plano / utilitario | Material Web Components|
-| Svelte | Faba v1.1 |CSS plano / utilitario | 	Svelte Material UI |
+| Svelte* | Faba v1.2 |CSS plano / utilitario | 	Svelte Material UI |
 | Vue 3* |Faba v1.2 |CSS plano / utilitario	 | Vuetify |
 | SolidJS* | Faba v1.2	|CSS plano / utilitario | 	Material Web Components |
 
-> (*) Disponibles para la Versión 1.2+
+> (*) Disponibles para la Versión 1.2
+
+> Astro, Qwik, Marko, Fresh y otras versiones por confirmar desde la Versión 1.3
 
 ## Medimos la primera impresión de los frameworks
 
