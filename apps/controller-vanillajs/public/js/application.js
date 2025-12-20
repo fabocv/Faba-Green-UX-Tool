@@ -86,6 +86,61 @@ Object.keys(tests).forEach(key => {
     });
 });
 
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log("📥 Obteniendo historial de resultados...");
+    try {
+        const response = await fetch('/api/last-results');
+        const lastData = await response.json();
+
+        if (lastData && lastData.length > 0) {
+            lastData.forEach(test => {
+                const [framework, version] = test.type.split('-');
+                
+                // Guardar en estado
+                state.results[framework][version] = test.metrics;
+                globalResults[test.type] = test.metrics; // Actualizar globalResults también
+
+                // Pintar con FECHA recuperada
+                renderResults(test.type, test.metrics, test.timestamp);
+                
+                // Si el test recuperado fue exitoso, deshabilitamos botones si quisiéramos
+                // o simplemente mostramos el resultado visualmente.
+            });
+
+            checkAndGenerateTables(); 
+        } else {
+            console.log("ℹ️ No hay historial previo.");
+        }
+    } catch (error) {
+        console.error("Error cargando historial:", error);
+    }
+});
+
+async function init() {
+    console.log("📥 Intentando obtener historial de resultados...");
+    try {
+        const response = await fetch('/api/last-results');
+        const lastData = await response.json();
+        console.log("📊 Datos recibidos del servidor:", lastData);
+
+        if (lastData && lastData.length > 0) {
+            lastData.forEach(test => {
+                const [framework, version] = test.type.split('-');
+                if (state.results[framework]) {
+                    state.results[framework][version] = test.metrics;
+                    renderResults(test.type, test.metrics, test.timestamp);
+                }
+            });
+            checkAndGenerateTables();
+        }
+    } catch (error) {
+        console.error("❌ Error en la carga inicial:", error);
+    }
+}
+
+// Ejecutar inmediatamente
+init();
+
 if (btnLight) {
     btnLight.addEventListener('click', () => {
         btnLight.disabled = true;
@@ -130,9 +185,9 @@ socket.on('test-complete', (data) => {
 
         config.btn.disabled = false;
         console.log(data.metrics);
-        //toggleAllButtons(false); // Liberamos al finalizar
+        toggleAllButtons(false); // Liberamos al finalizar
         UI.toggleButtons(false);
-        renderResults(data.type, data.metrics);
+        renderResults(data.type, data.metrics, data.timestamp);
 
         globalResults[data.type] = data.metrics;
     
@@ -169,12 +224,17 @@ socket.on('disconnect', () => {
     alert("Servidor de control desconectado. Reinicia 'node server.js'.");
 });
 
-function renderResults(type, m) {
+function renderResults(type, m, timestamp = null) {
     if (!resultsDiv) return;
 
     const config = tests[type];
-    if (!config.results) return;
+    if (!config || !config.results) return;
     
+    // Formatear fecha si existe
+    const dateStr = timestamp 
+        ? new Date(timestamp).toLocaleString('es-CL', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' }) 
+        : 'Recién';
+
     config.results.innerHTML = `
         <div class="accordion">
             <details open><summary>📦 Red</summary>
@@ -189,6 +249,9 @@ function renderResults(type, m) {
             <details open><summary>💾 Memoria</summary>
                 <p>Heap Used: ${m.memory.jsHeapUsedMB.toFixed(2)} MB</p>
             </details>
+            <div class="result-footer" style="margin-top: 10px; font-size: 0.8em; color: #666; text-align: right; border-top: 1px solid #eee; padding-top: 5px;">
+                🕒 Test realizado: ${dateStr}
+            </div>
         </div>
     `;
 
@@ -225,6 +288,19 @@ function getHumanInterpretation(m) {
     html += `<p>💾 <strong>Eficiencia de Memoria:</strong> El uso de <strong>${m.memory.jsHeapUsedMB.toFixed(1)} MB</strong> es ${memoryStatus} para procesar 1000 registros, demostrando un buen manejo del Garbage Collector.</p>`;
 
     return html;
+}
+
+function checkAndGenerateTables() {
+    // Recorremos los frameworks definidos en nuestro estado
+    Object.keys(state.results).forEach(framework => {
+        const data = state.results[framework];
+        
+        // Verificamos si ambas pruebas ya existen en el estado (recuperadas o nuevas)
+        if (data.light && data.heavy) {
+            console.log(`[Faba] Generando tabla comparativa para: ${framework}`);
+            generateComparisonTable(framework);
+        }
+    });
 }
 
 function generateComparisonTable(framework) {

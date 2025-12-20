@@ -1,0 +1,18 @@
+{
+  "type": "angular-heavy",
+  "metrics": {
+    "network": {
+      "jsBundleKB": 1867.75,
+      "totalTransferredKB": 1894.236328125
+    },
+    "performance": {
+      "FCPms": 253.2,
+      "FTTSms": 716.6250000001862,
+      "stdDev": 37.86271087723525
+    },
+    "memory": {
+      "jsHeapUsedMB": 10.946768760681152
+    }
+  },
+  "timestamp": "2025-12-20T20:57:12.635Z"
+}
