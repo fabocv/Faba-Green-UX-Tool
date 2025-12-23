@@ -195,14 +195,12 @@ async function loadDashboard() {
 
 
 function runCycle(fwId) {
-    // 1. Deshabilitar botones para evitar doble click
-    toggleAllButtons(true);
     const actionsContainer = document.getElementById(`actions-${fwId}`);
     const buttons = actionsContainer.querySelectorAll('button');
     buttons.forEach(btn => {
         btn.disabled = true;
         btn.style.opacity = '0.5';
-        btn.innerText = 'Initializing...';
+        btn.innerText = 'RUNNING...';
     });
 
     // 2. Ocultar la fecha del último test
@@ -224,6 +222,8 @@ function runCycle(fwId) {
 
     socket.emit('start-test', { url: `http://localhost:${port}`, type: type });
     FRAMEWORKS.state[fwId].phase = 2;
+
+    toggleAllButtons(true);
     updateCardUI(fwId);
 
 }
@@ -347,17 +347,24 @@ function gestionarVersus() {
     }
 }
 
+function updateTimestamp(fwId) {
+    // update timestamp
+    const fwState = FRAMEWORKS.state[fwId];
+    const timestamp = formatTimestamp(fwState.timestamp);
+    const timestampHTML = document.getElementById(`date-${fwId}`);
+    timestampHTML.innerHTML = `Último test: <strong>${timestamp}</strong>`;
+    timestampHTML.style.display = 'block';
+    timestampHTML.style.opacity = '1';
+}
+
 function updateCardUI(fwId) {
     const fwState = FRAMEWORKS.state[fwId];
+    const timestamp = formatTimestamp(fwState.timestamp);
     const fwConfig = FRAMEWORKS.UI.find(f => f.id === fwId);
     
     // 1. Actualizar el PILL (Color y Texto)
     const pill = document.querySelector(`#card-${fwId} .status-pill`);
     if (pill) {
-        // Limpiamos clases de pill anteriores
-        //pill.className = `status-pill ${STATE_PILL[fwState.phase]}`;
-        //pill.innerText = STATE_FRW[fwState.phase];
-
         pill.className = `status-pill ${fwState.phase === 5 ? 'selected' : STATE_PILL[fwState.phase]}`;
         pill.innerText = fwState.phase === 5 ? `⚔️ ${fwId.toUpperCase()}` : STATE_FRW[fwState.phase];
     }
@@ -377,7 +384,9 @@ function updateCardUI(fwId) {
         actionsContainer.innerHTML = isReady 
             ? `<button class="btn btn-retest" onclick="runCycle('${fwId}')">Re-Run test</button>
                <button class="btn btn-compare" onclick="showComparison('${fwId}')">Show Report</button>`
-            : `<button class="btn btn-run" onclick="runCycle('${fwId}')">Run Test</button>`;
+            : fwState.phase < 4 ?
+                `<button class="btn btn-run" onclick="runCycle('${fwId}')">Run Test</button>`
+                :`<button class="btn btn-compare" onclick="showComparison('${fwId}')">Show Report</button>`;
     }
 
     // 3. Actualizar la Card completa (Borde verde si está ready)
@@ -455,14 +464,13 @@ socket.on('test-complete', (data) => {
         } else {
             // FIN DEL CICLO
             FRAMEWORKS.state[fwId].phase = 4;
+            FRAMEWORKS.state[fwId].timestamp = data.timestamp
             toggleAllButtons(false); 
             updateCardUI(fwId);
+            updateTimestamp(fwId);
 
             // UI: Limpiar la card y habilitar botones finales
             document.getElementById(`run-test-${fwId}`).hidden = true;
-            document.getElementById(`date-${fwId}`).style.display = 'block';
-
-            FRAMEWORKS.state[fwId].timestamp = data.timestamp;
         }
     }
 });
@@ -711,9 +719,16 @@ function renderVersusDashboard() {
 
     // 1. Calcular victorias antes de renderizar
     metrics.forEach(m => {
-        const val1 = FRAMEWORKS.state[fw1][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
-        const val2 = FRAMEWORKS.state[fw2][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
-        if (val1 < val2) winsFw1++; else winsFw2++;
+        if('light' === CURRENT_VERSUS_MODE){
+            const val1 = FRAMEWORKS.state[fw1].light[m.path[0]][m.path[1]];
+            const val2 = FRAMEWORKS.state[fw2].light[m.path[0]][m.path[1]];
+            if (val1 < val2) winsFw1++; else winsFw2++;
+        }
+        else {
+            const val1 = FRAMEWORKS.state[fw1].heavy[m.path[0]][m.path[1]];
+            const val2 = FRAMEWORKS.state[fw2].heavy[m.path[0]][m.path[1]];
+            if (val1 < val2) winsFw1++; else winsFw2++;
+        }
     });
 
     // 2. Inyectar el Scoreboard
@@ -739,8 +754,8 @@ function renderVersusDashboard() {
     // 4. Renderizar ApexCharts (con un pequeño delay para el DOM)
     setTimeout(() => {
         metrics.forEach(m => {
-            const val1 = FRAMEWORKS.state[fw1].heavy[m.path[0]][m.path[1]];
-            const val2 = FRAMEWORKS.state[fw2].heavy[m.path[0]][m.path[1]];
+            const val1 = FRAMEWORKS.state[fw1][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
+            const val2 = FRAMEWORKS.state[fw2][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
             const winner = val1 < val2 ? fw1 : fw2;
 
             new ApexCharts(document.querySelector(`#chart-${m.id}`), {

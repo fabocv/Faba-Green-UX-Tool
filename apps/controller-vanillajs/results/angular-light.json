@@ -6,13 +6,13 @@
       "totalTransferredKB": 1849.5966796875
     },
     "performance": {
-      "FCPms": 131.8,
-      "FTTSms": 485.23000000044703,
-      "stdDev": 42.26960018754236
+      "FCPms": 125.4,
+      "FTTSms": 476.35999999716876,
+      "stdDev": 24.000862484766003
     },
     "memory": {
-      "jsHeapUsedMB": 9.037618446350098
+      "jsHeapUsedMB": 9.028909492492676
     }
   },
-  "timestamp": "2025-12-23T01:04:43.413Z"
+  "timestamp": "2025-12-23T19:09:00.272Z"
 }
