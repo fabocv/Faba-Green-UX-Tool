@@ -9,7 +9,7 @@
     "react-light": "cd apps/react-swc-test-light && npx vite --port 3001 --strictPort",
     "react-heavy": "cd apps/react-swc-test-heavy && npx vite --port 3002 --strictPort",
     "react-test": "concurrently -n \"CTRL,R-L,R-H\" -c \"magenta,cyan,blue\" \"npm run start:ctrl\" \"npm run react-light\" \"npm run react-heavy\"",
-    "start:all": " concurrently -n \"npm run clean\" \"CTRL,A-L,A-H,R-L,R-H\" -c \"magenta,red,orange,cyan,blue\" \"npm run start:ctrl\" \"npm run angular-light\" \"npm run angular-heavy\" \"npm run react-light\" \"npm run react-heavy\""
+    "start:all": "npm run clean && concurrently -n \"npm run clean\" \"CTRL,A-L,A-H,R-L,R-H\" -c \"magenta,red,orange,cyan,blue\" \"npm run start:ctrl\" \"npm run angular-light\" \"npm run angular-heavy\" \"npm run react-light\" \"npm run react-heavy\""
   },
   "devDependencies": {
     "concurrently": "^8.2.0",

@@ -137,14 +137,7 @@ npm install
 
 3. Instalar dependencias de cada aplicación: Debes instalar los módulos de cada carpeta para que puedan ejecutarse:
 ```
-# Angular Light
-cd apps/angular-test && npm install && cd ../..
-
-# Angular Heavy
-cd apps/angular-test-heavy && npm install && cd ../..
-
-# Controlador
-cd apps/controller-vanillajs && npm install && cd ../..
+chmod +x setup.sh && ./setup.sh
 ```
 
 ## Uso del Benchmark
