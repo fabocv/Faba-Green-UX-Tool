@@ -10,8 +10,8 @@ NC='\033[0m'
 APPS=(
     "apps/angular-test-light"
     "apps/angular-test-heavy"
-    "apps/react-test-light"
-    "apps/react-test-heavy"
+    "apps/react-swc-test-light"
+    "apps/react-swc-test-heavy"
     "apps/controller-vanillajs"
 )
 
