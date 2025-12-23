@@ -7,6 +7,8 @@ STATE_COMPARISON = {
     fw2: null
 } 
 
+let CURRENT_VERSUS_MODE = 'light'; // Por defecto comienza en Light
+
 const metricsConfig = [
     { label: 'Estabilidad (σ)', key: 'performance', subKey: 'stdDev' },
     { label: 'JS Bundle (KB)', key: 'network', subKey: 'jsBundleKB' },
@@ -332,15 +334,14 @@ function gestionarVersus() {
     // Si tenemos los dos frameworks seleccionados
     if (STATE_COMPARISON.fw1 && STATE_COMPARISON.fw2) {
         section.style.display = 'block';
-        renderVersusDashboard(); // Tu función de los 4 gráficos + Scoreboard
+        renderVersusDashboard(); 
         
-        // Opcional: Scroll automático la primera vez que se activa
         if (!section.dataset.active) {
+            section.scrollTo({y:2000})
             section.scrollIntoView({ behavior: 'smooth' });
             section.dataset.active = "true";
         }
     } else {
-        // Si falta uno o ambos, podemos ocultar o mostrar un estado de "espera"
         section.style.display = 'none';
         section.dataset.active = "";
     }
@@ -512,6 +513,8 @@ socket.on('disconnect', () => {
     alert("Servidor de control desconectado. Reinicia 'node server.js'.");
 });
 
+
+//OLD VERSION
 function renderResults(type, m, timestamp = null) {
     if (!resultsDiv) return;
 
@@ -550,6 +553,7 @@ function renderResults(type, m, timestamp = null) {
     }
 }
 
+//OLD VERSION
 function getHumanInterpretation(m) {
     let html = "";
 
@@ -578,6 +582,7 @@ function getHumanInterpretation(m) {
     return html;
 }
 
+// OLD VERSION
 function checkAndGenerateTables() {
     // Recorremos los frameworks definidos en nuestro estado
     Object.keys(state.results).forEach(framework => {
@@ -591,6 +596,7 @@ function checkAndGenerateTables() {
     });
 }
 
+//OLD VERSION
 function generateComparisonTable(framework) {
     const light = state.results[framework].light;
     const heavy = state.results[framework].heavy;
@@ -676,9 +682,22 @@ function closeVersus() {
     document.getElementById('versus-section').style.display = 'none';
 }
 
+function setVersusMode(mode) {
+    CURRENT_VERSUS_MODE = mode;
+    
+    // Actualizar UI de los botones
+    document.getElementById('btn-mode-light').classList.toggle('active', mode === 'light');
+    document.getElementById('btn-mode-heavy').classList.toggle('active', mode === 'heavy');
+    
+    // Re-renderizar todo con los nuevos datos
+    gestionarVersus();
+}
+
 function renderVersusDashboard() {
     const fw1 = STATE_COMPARISON.fw1;
     const fw2 = STATE_COMPARISON.fw2;
+
+    if (!fw1 || !fw2) return;
     
     let winsFw1 = 0;
     let winsFw2 = 0;
@@ -692,8 +711,8 @@ function renderVersusDashboard() {
 
     // 1. Calcular victorias antes de renderizar
     metrics.forEach(m => {
-        const val1 = FRAMEWORKS.state[fw1].heavy[m.path[0]][m.path[1]];
-        const val2 = FRAMEWORKS.state[fw2].heavy[m.path[0]][m.path[1]];
+        const val1 = FRAMEWORKS.state[fw1][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
+        const val2 = FRAMEWORKS.state[fw2][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
         if (val1 < val2) winsFw1++; else winsFw2++;
     });
 
