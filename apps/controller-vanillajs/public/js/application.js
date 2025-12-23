@@ -78,18 +78,18 @@ let isRunning = false;
 
 function toggleAllButtons(disabled) {
     const buttons = document.querySelectorAll('.btn'); 
+    console.log(buttons.length)
     
     buttons.forEach(btn => {
         btn.disabled = disabled;
+        btn.style.opacity = disabled ? '0.4' : '1';
+        btn.style.cursor = disabled ? 'not-allowed' : 'pointer';
         
-        // Opcional: Feedback visual para asegurar que el usuario sepa que están bloqueados
+        // Evitamos que el usuario haga clic aunque el CSS falle
         if (disabled) {
-            btn.style.opacity = '0.5';
-            btn.style.cursor = 'not-allowed';
-            btn.dataset.originalText = btn.innerText; // Guardamos texto original
+            btn.style.pointerEvents = 'none';
         } else {
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
+            btn.style.pointerEvents = 'auto';
         }
     });
     isRunning = disabled;
@@ -195,14 +195,7 @@ async function loadDashboard() {
 
 
 function runCycle(fwId) {
-    const actionsContainer = document.getElementById(`actions-${fwId}`);
-    const buttons = actionsContainer.querySelectorAll('button');
-    buttons.forEach(btn => {
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
-        btn.innerText = 'RUNNING...';
-    });
-
+    toggleAllButtons(true);
     // 2. Ocultar la fecha del último test
     const dateDiv = document.getElementById(`date-${fwId}`);
     dateDiv.style.display = 'none';
@@ -211,10 +204,6 @@ function runCycle(fwId) {
     const runContainer = document.getElementById(`run-test-${fwId}`);
     runContainer.removeAttribute('hidden');
     
-
-    // 5. Llamada real al backend (Socket/API)
-    console.log(`🚀 Triggering sequence for: ${fwId}`);
-
     const port = FRAMEWORKS.state[fwId].lightPort;
     const type = `${fwId}-light`;
     
@@ -222,9 +211,6 @@ function runCycle(fwId) {
 
     socket.emit('start-test', { url: `http://localhost:${port}`, type: type });
     FRAMEWORKS.state[fwId].phase = 2;
-
-    toggleAllButtons(true);
-    updateCardUI(fwId);
 
 }
 
@@ -359,8 +345,6 @@ function updateTimestamp(fwId) {
 
 function updateCardUI(fwId) {
     const fwState = FRAMEWORKS.state[fwId];
-    const timestamp = formatTimestamp(fwState.timestamp);
-    const fwConfig = FRAMEWORKS.UI.find(f => f.id === fwId);
     
     // 1. Actualizar el PILL (Color y Texto)
     const pill = document.querySelector(`#card-${fwId} .status-pill`);
@@ -448,7 +432,7 @@ socket.on('test-complete', (data) => {
             // TRANSICIÓN INTERNA: Light -> Heavy
             FRAMEWORKS.state[fwId].phase = 3;
             updateCardUI(fwId);
-
+            toggleAllButtons(true);
             
             // UI: Actualización directa de la barra de estado
             const step = variant === 'light' ? '[1/2]' : '[2/2]';
@@ -719,16 +703,9 @@ function renderVersusDashboard() {
 
     // 1. Calcular victorias antes de renderizar
     metrics.forEach(m => {
-        if('light' === CURRENT_VERSUS_MODE){
-            const val1 = FRAMEWORKS.state[fw1].light[m.path[0]][m.path[1]];
-            const val2 = FRAMEWORKS.state[fw2].light[m.path[0]][m.path[1]];
-            if (val1 < val2) winsFw1++; else winsFw2++;
-        }
-        else {
-            const val1 = FRAMEWORKS.state[fw1].heavy[m.path[0]][m.path[1]];
-            const val2 = FRAMEWORKS.state[fw2].heavy[m.path[0]][m.path[1]];
-            if (val1 < val2) winsFw1++; else winsFw2++;
-        }
+        const val1 = FRAMEWORKS.state[fw1][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
+        const val2 = FRAMEWORKS.state[fw2][CURRENT_VERSUS_MODE][m.path[0]][m.path[1]];
+        if (val1 < val2) winsFw1++; else winsFw2++;
     });
 
     // 2. Inyectar el Scoreboard
