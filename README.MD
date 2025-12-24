@@ -2,10 +2,23 @@
 # Faba — Benchmark: Comparativa de Frameworks y Eficiencia Digital. 
 > Cuantificando el impacto real del stack tecnológico en la inclusión digital y la sostenibilidad.
 
-## Autor
-### Fabián Catalán
-- Github: https://github.com/fabocv
-- LinkedIn: https://www.linkedin.com/in/fkatv
+<p align="left">
+  <img src="https://img.shields.io/badge/version-1.2.0--stable-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Security-Policy_Enabled-success?style=for-the-badge&logo=github-security" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" />
+</p>
+
+![GitHub Code scanning](https://img.shields.io/github/check-runs/fabocv/Faba-Front-Bench/main?label=CodeQL%20Analysis&logo=github&style=flat-square)
+![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=flat-square)
+
+![Node.js](https://img.shields.io/badge/Runtime-Node.js_20+-339933?style=flat-square&logo=node.js&logoColor=white)
+![Puppeteer](https://img.shields.io/badge/Engine-Puppeteer-00D1B2?style=flat-square&logo=puppeteer&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)
+
+### 👤 Autor: Fabián Catalán
+[![Github](https://img.shields.io/badge/GitHub-fabocv-181717?style=flat-square&logo=github)](https://github.com/fabocv)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-fkatv-0A66C2?style=flat-square&logo=linkedin)](https://linkedin.com/in/fkatv)
+
 ---
 
 **¿Por qué una aplicación construida con la misma lógica presenta variaciones sustanciales de peso entre frameworks?**
