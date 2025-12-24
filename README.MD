@@ -75,14 +75,12 @@ Para garantizar que los resultados sean indiscutibles, aplicamos:
 |-----------|---------|-----------------|---------------------|
 | Angular | Faba v1.1	|CSS plano / utilitario | 	Angular Material |
 | React | Faba v1.1	|CSS plano / utilitario	 | Material UI (MUI) |
-| VanillaJS | Faba v1.1 | CSS plano / utilitario | Material Web Components|
-| Svelte* | Faba v1.2 |CSS plano / utilitario | 	Svelte Material UI |
-| Vue 3* |Faba v1.2 |CSS plano / utilitario	 | Vuetify |
-| SolidJS* | Faba v1.2	|CSS plano / utilitario | 	Material Web Components |
+| Vue 3 |Faba v1.2 **(ACTUAL)**|CSS plano / utilitario	 | Vuetify |
+| Svelte | Faba v1.2 **(ACTUAL)** |CSS plano / utilitario | 	Svelte Material UI |
+| VanillaJS* | Faba v1.2 **(ACTUAL)** | CSS plano / utilitario | Material Web Components|
+| SolidJS* | Faba v1.3	|CSS plano / utilitario | 	Material Web Components |
 
-> (*) Disponibles para la Versión 1.2
-
-> Astro, Qwik, Marko, Fresh y otras versiones por confirmar desde la Versión 1.3
+> (*) Disponibles para la Versión 1.3, pero pueden ser cambiados por: **Astro, Qwik, Marko, Fresh** u otras versiones por confirmar.
 
 ## Medimos la primera impresión de los frameworks
 
@@ -120,7 +118,6 @@ Este monorepositorio contiene un entorno de pruebas automatizado para medir la e
 Antes de comenzar, asegúrate de tener instalado:
 
 - Node.js (Versión 18 o superior recomendada)
-- Angular CLI (npm install -g @angular/cli)
 - Google Chrome (Puppeteer lo utilizará para las pruebas)
 
 ## 🛠️ Instalación
