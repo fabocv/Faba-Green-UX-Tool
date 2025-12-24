@@ -110,9 +110,10 @@ Es nuestro deber como ingenieros seleccionar stacks y librerías que colaboren c
 
 ---
 
-# Faba Benchmark v1.1 - Guía de Instalación y Uso
+# Faba Benchmark v1.2 - Guía de Instalación y Uso
 
-Este monorepositorio contiene un entorno de pruebas automatizado para medir la eficiencia de renderizado en aplicaciones Angular (Versión Ligera vs. Angular Material).
+Este monorepositorio contiene un entorno de pruebas automatizado para medir la eficiencia de renderizado 
+en aplicaciones en una Versión Ligera (sin paquetes extras) vs. Versión Heavy (con Material UI o similares - robustos-) para cada framework.
 
 ## 📋 Requisitos Previos
 Antes de comenzar, asegúrate de tener instalado:
@@ -152,14 +153,12 @@ npm run start:all
 ### 2. Ejecutar las Pruebas
 1. Una vez abierto el panel en el navegador, asegúrate de no tener otras pestañas pesadas abiertas.
 
-2. Haz clic en "Testear Angular Light". El sistema realizará 20 iteraciones automáticas.
+2. Haz clic en "RUN TEST" o "RE-RUN TEST" (si es que ya tiene algún reporte en memoria). El sistema realizará 20 iteraciones automáticas dos veces.
 
-3. Al finalizar, haz clic en "Testear Angular Material".
+3. Puedes comparar los frameworks si ya estan testeados. Click en "SELECT" en cada tarjeta y aparecerá el Comparador y sus gráficos.
 
-4. Al obtener ambos resultados, se generará una Tabla Comparativa automática con el impacto porcentual.
+4. Puedes mirar mas detalles del testeo en "SHOW REPORT" correspondiente.
 
-### 3. Exportar Resultados
-Haz clic en el botón "Descargar Reporte CSV" para obtener un archivo con todas las métricas de rendimiento (FCP, FTTS, Memoria y Bundle) para tu análisis de tesis.
 
 ### Limpieza y Errores
 Si al intentar iniciar el proyecto recibes un error de "Puerto en uso" o quieres cerrar todo rápidamente, ejecuta:
