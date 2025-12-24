@@ -173,10 +173,26 @@ npm run clean
 - **Muestreo:** Cada test consta de 20 muestras promediadas.
 - **Estabilidad ($\sigma$):** Se busca una desviación estándar inferior a ±50ms para considerar la prueba válida.
 
-## Pantallas v1.1
+## Pantallas v1.2
+
+![Benchmark1.2](./docs/img/main1.2.png)
+
+Primer prototipo funcional de Faba v1.1 - Angular tests
+
+![RUN Benchmark1.2](./docs/img/runtest1.2.png)
+
+Corriendo el test doble (light, heavy MUI) 20 veces para Angular
+
+![Resultado Benchmark1.2](./docs/img/comparison_arena1.2.png)
+
+Resultados comparativos entre frameworks
+
+## Pantallas v1.1 (OLD VERSION)
 
 ![Benchmark](./docs/img/main1.1.png)
+
 Primer prototipo funcional de Faba v1.1 - Angular tests
 
 ![Resultado Benchmark](./docs/img/tabla-angular1.1.png)
+
 Resultados comparativos de Angular sin design system (light) y con MUI (heavy) bajo headless controlado y con $M=20$
