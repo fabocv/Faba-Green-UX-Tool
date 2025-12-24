@@ -40,6 +40,13 @@ FRAMEWORKS = {
             desc: 'Reactivity API + Vuetify',
             color: '#3b82f6' 
         },
+        {
+            id: 'svelte', 
+            name: 'Svelte 5', 
+            version: 'Runes / Vite', 
+            desc: 'Compiled Reactivity',
+            color: '#3b82f6'
+        }
     ],
     state:
     {
@@ -70,6 +77,16 @@ FRAMEWORKS = {
                 heavy: null,
                 lightPort: 3003,
                 heavyPort: 3004,
+                timestamp: null,
+                environment: null,
+            },
+        'svelte':
+            {
+                phase: 1,
+                light: null,
+                heavy: null,
+                lightPort: 3005,
+                heavyPort: 3006,
                 timestamp: null,
                 environment: null,
             },
@@ -425,7 +442,7 @@ socket.on('test-progress', (data) => {
             const step = variant === 'light' ? '[1/2]' : '[2/2]';
             const cleanVariant = variant.charAt(0).toUpperCase() + variant.slice(1); // 'Light'
             const port = 'light' === variant ? FRAMEWORKS.state[fwId].lightPort : FRAMEWORKS.state[fwId].heavyPort;
-            statusText.innerText = `${step} TEST LIGHT VERSION  ${cleanVariant} (PORT ${port})`;
+            statusText.innerText = `${step} TEST VERSION  ${cleanVariant.toUpperCase()} (PORT ${port})`;
             
             // Opcional: Cambiar color si es heavy para dar feedback visual
             statusText.style.color = variant === 'heavy' ? 'var(--accent-red)' : 'var(--accent-blue)';
@@ -624,10 +641,10 @@ function renderVersusDashboard() {
     let winsFw2 = 0;
 
     const metrics = [
-        { id: 'bundle', label: 'Bundle JS (KB)', path: ['network', 'jsBundleKB'], subtitle: 'Peso: Qué tanto debe descargar el usuario' },
-        { id: 'fcp', label: 'FCP (ms)', path: ['performance', 'FCPms'], subtitle: 'Percepción: Cuánto tarda en aparecer algo en pantalla.' },
-        { id: 'ftts', label: 'FTTS (ms)', path: ['performance', 'FTTSms'] , subtitle: 'Interactividad: Cuándo el sitio deja de estar congelado.'},
-        { id: 'memory', label: 'Memory (MB)', path: ['memory', 'jsHeapUsedMB'], subtitle: 'Memoria: Qué tanto esfuerzo le exige al PC/Móvil.'}
+        { id: 'bundle', label: 'Bundle JS (KB)', path: ['network', 'jsBundleKB'], subtitle: 'Weight: How much should the user unload?' },
+        { id: 'fcp', label: 'FCP (ms)', path: ['performance', 'FCPms'], subtitle: 'Perception: How long it takes for something to appear on the screen.' },
+        { id: 'ftts', label: 'FTTS (ms)', path: ['performance', 'FTTSms'] , subtitle: 'Interactivity: When the site is no longer frozen.'},
+        { id: 'memory', label: 'Memory (MB)', path: ['memory', 'jsHeapUsedMB'], subtitle: 'Memory: How much effort does it require from the PC/Mobile?'}
     ];
 
     // 1. Calcular victorias antes de renderizar
