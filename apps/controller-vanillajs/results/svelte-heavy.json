@@ -1,0 +1,36 @@
+{
+  "fabaVersion": "1.2.0",
+  "type": "svelte-heavy",
+  "headless": true,
+  "timestamp": "2025-12-24T17:52:08.789Z",
+  "environment": {
+    "browser": "Chrome/143.0.7499.146",
+    "os": {
+      "platform": "linux",
+      "release": "6.15.11-2-MANJARO",
+      "arch": "x64",
+      "cpus": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz"
+    },
+    "networkSpeed": "1.55 Mbps",
+    "cpuModel": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
+    "logicalCores": 16,
+    "totalMemoryGB": 15,
+    "freeMemoryBeforeTest": 8,
+    "platform": "linux",
+    "isPluggedIn": true
+  },
+  "metrics": {
+    "network": {
+      "jsBundleKB": 1.51953125,
+      "totalTransferredKB": 735.591796875
+    },
+    "performance": {
+      "FCPms": 262.6,
+      "FTTSms": 544.6700000000186,
+      "stdDev": 49.998760984641734
+    },
+    "memory": {
+      "jsHeapUsedMB": 27.719809913635252
+    }
+  }
+}
