@@ -45,6 +45,21 @@ do
     fi
 done
 
+# 3. VUE + VITE (Light & Heavy)
+APPS_VUE=("apps/vue-test-light" "apps/vue-test-heavy")
+for APP in "${APPS_VUE[@]}"
+do
+    if [ ! -d "$APP" ]; then
+        echo -e "${BLUE}🟢 Creando Vue 3 + Vite en $APP...${NC}"
+        # Usamos el comando de vite para crear el proyecto sin prompts
+        npm create vite@latest $APP -- --template vue
+        (cd "$APP" && npm install)
+    else
+        echo -e "${BLUE}📦 Instalando dependencias en $APP...${NC}"
+        (cd "$APP" && npm install)
+    fi
+done
+
 
 # 3. CONTROLADOR
 if [ -d "apps/controller-vanillajs" ]; then
