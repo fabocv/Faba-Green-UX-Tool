@@ -172,12 +172,12 @@ async function loadDashboard() {
 
                     <fw-footer id="footer-${fw.id}" class="last-run">
                         <div id="date-${fw.id}" style="transition: opacity 0.3s;">
-                            Último test: <strong>${lastRun}</strong>
+                            Last Test: <strong>${lastRun}</strong>
                         </div>
 
                         <div hidden id="run-test-${fw.id}" class="running-status">
                             <p id="status-text-${fw.id}" style="margin:0 0 5px 0; font-size:0.85rem; color:var(--accent-blue)">
-                                [1/2] Iniciando Light...
+                                [1/2] Start Light Test...
                             </p>
                             <div id="progreso-test-${fw.id}" class="progreso-test">
                                 <p style="margin:0; font-size:0.7rem; text-align:right">0%</p> 
@@ -233,7 +233,7 @@ function showComparison(fwId) {
     const tableHTML = `
         <div class="report-header">
             <h2><span style="color:var(--text-dim)">Performance Audit:</span> ${fwId.toUpperCase()}</h2>
-            <p>Comparativa de escalabilidad entre versión base y carga pesada.</p>
+            <p>Scalability comparison between base version and heavy load.</p>
             
             <div class="system-specs">
                 <span>💻 <strong>OS:</strong> ${env.platform} (${env.os.arch})</span> | 
@@ -250,10 +250,10 @@ function showComparison(fwId) {
             <table class="modern-table">
                 <thead>
                     <tr>
-                        <th>Métrica</th>
-                        <th>Optimizado (Light)</th>
-                        <th>Carga (Heavy)</th>
-                        <th class="text-right">Impuesto de Carga</th>
+                        <th>Metrics</th>
+                        <th>Optimized (Light) </th>
+                        <th>Load (Heavy)</th>
+                        <th class="text-right">Load Tax</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -353,7 +353,7 @@ function updateTimestamp(fwId) {
     const fwState = FRAMEWORKS.state[fwId];
     const timestamp = formatTimestamp(fwState.timestamp);
     const timestampHTML = document.getElementById(`date-${fwId}`);
-    timestampHTML.innerHTML = `Último test: <strong>${timestamp}</strong>`;
+    timestampHTML.innerHTML = `Last Test: <strong>${timestamp}</strong>`;
     timestampHTML.style.display = 'block';
     timestampHTML.style.opacity = '1';
 }
