@@ -177,11 +177,18 @@ npm run clean
 
 ![Benchmark1.2](./docs/img/main1.2.png)
 
-Primer prototipo funcional de Faba v1.1 - Angular tests
+Primer prototipo funcional de Faba v1.2
+
+![REPORT AUDIT.2](./docs/img/report1.2.png)
+
+Reporte contraste entre variante light y pesada de un framework singular.
+
 
 ![RUN Benchmark1.2](./docs/img/runtest1.2.png)
 
 Corriendo el test doble (light, heavy MUI) 20 veces para Angular
+
+
 
 ![Resultado Benchmark1.2](./docs/img/comparison_arena1.2.png)
 
