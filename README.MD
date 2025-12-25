@@ -1,8 +1,13 @@
 # Faba — Benchmark: Comparativa de Frameworks y Eficiencia Digital
 > Cuantificando el impacto real del stack tecnológico en la inclusión digital y la sostenibilidad.
 
-[![version](https://img.shields.io/badge/version-1.2.0--stable-blue?style=for-the-badge)](https://github.com/fabocv/Faba-Front-Bench)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+<p align="left">
+  <img src="https://img.shields.io/badge/version-1.2.0--stable-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Security-Policy_Enabled-success?style=for-the-badge&logo=github-security" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Runtime-Node.js_20+-339933?style=for-the-badge&logo=node.js&logoColor=white">
+  <img src="https://img.shields.io/badge/Engine-Puppeteer-00D1B2?style=for-the-badge&logo=puppeteer&logoColor=white">
+</p>
 
 ## 🎯 Objetivo
 Faba mide el **"Impuesto Tecnológico"**: el costo invisible que los usuarios pagan con batería, tiempo y procesamiento al usar apps modernas. Se especializa en la auditoría de **Cold Start (Carga en frío)** bajo un entorno Headless controlado.
