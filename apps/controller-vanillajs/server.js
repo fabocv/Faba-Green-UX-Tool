@@ -16,13 +16,18 @@ const lastResultsLimiter = RateLimit({
     max: 100, // limit each IP to 100 requests per windowMs
 });
 
+const indexLimiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+});
+
 const FABAVERSION = "1.2.0";
 const os = require('os');
 
 
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-app.get('/', (req, res) => {
+app.get('/', indexLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
