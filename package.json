@@ -1,9 +1,9 @@
 {
-  "name": "faba-benchmark-v1.1",
-  "version": "1.1.0",
+  "name": "faba-benchmark-v1.2",
+  "version": "1.2.1",
   "scripts": {
     "clean": "npx kill-port 3000 3001 3002 3003 3004 3005 3006 4201 4202",
-    "start:ctrl": "cd apps/controller-vanillajs && node server.js & sleep 2 && npx open-cli http://localhost:3000",
+    "start:ctrl": "cd apps/controller && node server.js & sleep 2 && npx open-cli http://localhost:3000",
     "angular-light": "cd apps/angular-test-light && ng serve --port 4201 --open false",
     "angular-heavy": "cd apps/angular-test-heavy && ng serve --port 4202 --open false",
     "react-light": "cd apps/react-swc-test-light && npx vite --port 3001 --strictPort",
