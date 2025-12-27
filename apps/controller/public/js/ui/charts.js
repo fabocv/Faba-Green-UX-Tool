@@ -49,7 +49,7 @@ export function renderVersusDashboard(fw1, fw2) {
                         { x: fw2.toUpperCase(), y: Number(val2.toFixed(2)) }
                     ]
                 }],
-                chart: { type: 'bar', height: 160, toolbar: { show: false } },
+                chart: { type: 'bar', height: 160, width: '100%', toolbar: { show: false }, redrawOnWindowResize: true,animations: {enabled: true} },
                 plotOptions: { bar: { horizontal: true, distributed: true, barHeight: '50%' } },
                 colors: [winner === fw1 ? '#10b981' : '#4b5563', winner === fw2 ? '#10b981' : '#4b5563'],
                 legend: { show: false },

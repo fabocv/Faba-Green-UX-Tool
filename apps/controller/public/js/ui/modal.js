@@ -6,6 +6,9 @@ export function openModal() {
         modal.style.display = 'block';
         overlay.style.display = 'block';
     }
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 100);
 }
 
 export function closeModal() {
@@ -15,6 +18,7 @@ export function closeModal() {
         modal.style.display = 'none';
         overlay.style.display = 'none';
     }
+    
 }
 
 // Inicializar escuchas de cierre (tecla ESC o clic en overlay)
