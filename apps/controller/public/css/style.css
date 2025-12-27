@@ -108,6 +108,8 @@ body {
     gap: 1rem; 
 }
 
+
+
 /* Grid para las dos apps lado a lado */
 .baseline {
     display: grid;
@@ -353,6 +355,15 @@ progress::-webkit-progress-value {
     position: relative;
     display: flex; flex-direction: column;
     transition: transform 0.2s;
+}
+
+.fw-card:hover {
+    border-color: #38bdf8;
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.6),
+    0 0 10px rgba(56, 189, 248, 0.5),
+    0 0 20px rgba(56, 189, 248, 0.35),
+    0 0 30px rgba(56, 189, 248, 0.15);
 }
 
 .running-status {

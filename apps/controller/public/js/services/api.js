@@ -4,7 +4,6 @@ export async function fetchHistory() {
         const lastData = await response.json();
 
         if (lastData && lastData.length > 0) {
-            console.log("datos obtenidos")
             return lastData;
         } else {
             console.log("ℹ️ No hay historial previo.");

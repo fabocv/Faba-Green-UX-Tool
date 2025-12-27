@@ -75,8 +75,6 @@ class StateManager {
         else if (this.#comparison.fw2 === id) this.#comparison.fw2 = null;
         else if (!this.#comparison.fw1) this.#comparison.fw1 = id;
         else if (!this.#comparison.fw2) this.#comparison.fw2 = id;
-
-        console.log('toggle ', this.#comparison)
         return this.#comparison;
     }
 
