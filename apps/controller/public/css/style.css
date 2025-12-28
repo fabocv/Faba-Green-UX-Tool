@@ -258,6 +258,28 @@ progress::-webkit-progress-value {
     font-size: 1.5rem; cursor: pointer; float: right;
 }
 
+.nota {
+    max-width: 1100px;
+    box-sizing: border-box;
+    margin: 20px auto; /* Centrado horizontal */
+    margin-top: 1em;
+    margin-bottom: 2em;
+    background: rgba(59, 130, 246, 0.1); /* Azul muy transparente */
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    color: var(--text-main);
+    box-sizing: border-box; /* Evita que el padding ensanche la caja */
+}
+.nota h4 {
+    color: var(--accent-primary);
+    margin-top: 0;
+}
+.nota li {
+    color: var(--text-muted);
+}
+
 .versus-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
